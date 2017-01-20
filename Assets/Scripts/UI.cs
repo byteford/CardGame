@@ -8,17 +8,23 @@ public class UI : MonoBehaviour {
 	public Text		DeckSize;
 	public Transform HandRoot;
 	public GameObject baseCard;
+	public Player player;
 	public List<GameObject> cardsIsHand;
 	[SerializeField]
 	Deck deck;
 	[SerializeField]
 	Hand hand;
 	public void Update(){
-
+		player = Player.LocalPlayer;//GameObject.FindGameObjectWithTag ("Player");
+		deck = player.deck;
+		hand = player.hand;
 			DeckSize.text = deck.CardsLoaded.ToString ();
 			MakeHand ();
 	}
+	public void SetUP(){
+		player.BroadcastMessage ("StartGame");
 
+	}
 	public void MakeHand(){
 		if (HandRoot.childCount != 0)
 			return;
