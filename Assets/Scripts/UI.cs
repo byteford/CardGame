@@ -15,7 +15,6 @@ public class UI : MonoBehaviour {
 	[SerializeField]
 	Hand hand;
 	public void Update(){
-		player = Player.LocalPlayer;//GameObject.FindGameObjectWithTag ("Player");
 		deck = player.deck;
 		hand = player.hand;
 			DeckSize.text = deck.CardsLoaded.ToString ();

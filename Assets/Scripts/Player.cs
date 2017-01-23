@@ -2,16 +2,12 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Networking;
-public class Player : NetworkBehaviour {
+public class Player : MonoBehaviour {
 
 	public Deck deck;
 	public Hand hand;
 	public int startingHandSize = 7;
-	public static Player LocalPlayer;
 	public void Start(){
-		if (isLocalPlayer) {
-			LocalPlayer = this;
-		}
 	}
 	public void StartGame(){
 		
