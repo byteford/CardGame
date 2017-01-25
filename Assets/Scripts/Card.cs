@@ -29,6 +29,7 @@ public class Card  {
 		this.json = json;
 		_name = GetStringFromJSON ("name");
 		id = GetIntFromJSON ("multiverseid");
+        
 
 	}
 	public string GetStringFromJSON( string value){

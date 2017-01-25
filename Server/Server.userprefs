@@ -1,8 +1,17 @@
 ﻿<Properties StartupItem="CardGameServer\CardGameServer.csproj">
-  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug|x86" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="CardGameServer\Program.cs">
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" PreferredExecutionTarget="Unity.Instance.Unity Editor" />
+  <MonoDevelop.Ide.Workbench ActiveDocument="..\Assets\Scripts\Network.cs">
     <Files>
-      <File FileName="CardGameServer\Program.cs" Line="2" Column="1" />
+      <File FileName="..\Assets\Scripts\Player.cs" Line="1" Column="1" />
+      <File FileName="..\Assets\Scripts\Deck.cs" Line="1" Column="1" />
+      <File FileName="..\Assets\Scripts\Card.cs" Line="1" Column="1" />
+      <File FileName="..\Assets\Scripts\UI.cs" Line="1" Column="1" />
+      <File FileName="..\Assets\Scripts\Hand.cs" Line="1" Column="1" />
+      <File FileName="..\Assets\Scripts\ClientManager.cs" Line="1" Column="1" />
+      <File FileName="..\Assets\Scripts\Network.cs" Line="14" Column="1" />
+      <File FileName="CardGameServer\Program.cs" Line="11" Column="21" NotebookId="1" />
+      <File FileName="CardGameServer\Server.cs" Line="22" Column="34" NotebookId="1" />
+      <File FileName="CardGameServer\Client.cs" Line="16" Column="1" NotebookId="1" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
