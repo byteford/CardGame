@@ -5,39 +5,47 @@ using System.Net.Sockets;
 using System;
 using System.Text;
 using System.Threading;
-
-public class Network : MonoBehaviour {
-	TcpClient _client;
-    Thread reciveThread;
-	// Use this for initialization
-	void Start () {
-		_client = new TcpClient ("localhost", 5260);
-        Debug.Log("connected");
-        reciveThread = new Thread(new ThreadStart(Recive));
-        reciveThread.Start();
-	}
-	// Update is called once per frame
-	void Update () {
-
-	}
-    
-    public string byteToString(Byte[] bytes)
+namespace CardGame
+{
+    public class Network : MonoBehaviour
     {
-        return Encoding.ASCII.GetString(bytes);
-    }
-    void Recive()
-    {
-        try
+        TcpClient _client;
+        Thread reciveThread;
+        // Use this for initialization
+        void Start()
         {
-            Byte[] bytes = new Byte[1024];
-            _client.Client.Receive(bytes);
-            Debug.Log(byteToString(bytes));
+            _client = new TcpClient("localhost", 5260);
+            Debug.Log("connected");
+            reciveThread = new Thread(new ThreadStart(Recive));
+            reciveThread.Start();
         }
-        catch(Exception e)
+        // Update is called once per frame
+        void Update()
         {
-            Debug.Log(e.ToString());
+
         }
-        Recive();
-        
+
+        public string byteToString(Byte[] bytes)
+        {
+            return Encoding.ASCII.GetString(bytes);
+        }
+        void Recive()
+        {
+            try
+            {
+                //while (true)
+                {
+                    Byte[] bytes = new Byte[1024];
+                    _client.Client.Receive(bytes);
+                    Debug.Log(byteToString(bytes));
+                }
+            }
+            catch (Exception e)
+            {
+                Debug.Log(e.ToString());
+            }
+
+
+        }
     }
 }

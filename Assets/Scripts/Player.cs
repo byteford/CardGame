@@ -2,32 +2,42 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Networking;
-public class Player : MonoBehaviour {
+namespace CardGame
+{
+    public class Player : MonoBehaviour
+    {
 
-	public Deck deck;
-	public Hand hand;
-	public int startingHandSize = 7;
-	public void Start(){
-	}
-	public void StartGame(){
-		
-		StartCoroutine (SetUPPlayer());
-	}
+        public Deck deck;
+        public Hand hand;
+        public int startingHandSize = 7;
+        public void Start()
+        {
+        }
+        public void StartGame()
+        {
 
-	public void DrawStartingHand(){
-		for (int i = 0; i < startingHandSize; i++) {
-			DrawACard ();
-		}
-	}
+            StartCoroutine(SetUPPlayer());
+        }
 
-	public void DrawACard(){
-		hand.AddCard(deck.drawACard ());
-	}
+        public void DrawStartingHand()
+        {
+            for (int i = 0; i < startingHandSize; i++)
+            {
+                DrawACard();
+            }
+        }
 
-	IEnumerator SetUPPlayer(){
-		deck.LoadCards ();
-		yield return new WaitUntil(() => deck.deckLoaded);
-		deck.ShuffleCards ();
-		DrawStartingHand ();
-	}
+        public void DrawACard()
+        {
+            hand.AddCard(deck.drawACard());
+        }
+
+        IEnumerator SetUPPlayer()
+        {
+            deck.LoadCards();
+            yield return new WaitUntil(() => deck.deckLoaded);
+            deck.ShuffleCards();
+            DrawStartingHand();
+        }
+    }
 }
