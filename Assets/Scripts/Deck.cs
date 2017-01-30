@@ -2,17 +2,20 @@
 using System.Collections.Generic;
 using UnityEngine;
 using SimpleJSON;
+using UnityEngine.Networking;
+
 namespace CardGame
 {
-    public class Deck : MonoBehaviour
+    public class Deck : NetworkBehaviour
     {
 
 
         public string startOfURL = "https://api.magicthegathering.io/v1/cards";
-        public List<Card> cards;
+        //public List<Card> cards;
+        public CardsWrapper cards;
         public int CardsLoaded
         {
-            get { return cards.Count; }
+            get { return GetCards().Count; }
         }
         int CardsToLoad;
         public bool deckLoaded
@@ -20,17 +23,22 @@ namespace CardGame
             get { return CardsLoaded == CardsToLoad; }
 
         }
+        public List<Card> GetCards()
+        {
+            return cards.cards;
+        }
+
         // Use this for initialization
         void Start()
         {
-            cards = new List<Card>();
-
+            cards = new CardsWrapper();
         }
 
         // Update is called once per frame
         void Update()
         {
-
+            //cardsWap.cards = cards;
+            //Debug.Log(JsonUtility.ToJson(cardsWap));
         }
 
         #region load Cards
@@ -54,6 +62,7 @@ namespace CardGame
             addCard("Spirebluff Canal", 4);
             addCard("Mountain", 2);
             addCard("Plains", 4);
+           
         }
         void addCard(int id)
         {
@@ -94,7 +103,7 @@ namespace CardGame
                 Debug.Log("Failed to load: " + URL);
             }
             else
-                cards.Add(card);
+                cards.cards.Add(card);
         }
         #endregion
 
@@ -104,20 +113,32 @@ namespace CardGame
                 return;
             for (int i = 0; i < CardsLoaded; i++)
             {
-                Card temp = cards[i];
+                Card temp = GetCards()[i];
                 int randomIndex = Random.Range(i, CardsLoaded);
-                cards[i] = cards[randomIndex];
-                cards[randomIndex] = temp;
+                GetCards()[i] = GetCards()[randomIndex];
+                GetCards()[randomIndex] = temp;
             }
 
         }
 
         public Card drawACard()
         {
-            Card temp = cards[0];
-            cards.RemoveAt(0);
+            Card temp = GetCards()[0];
+            GetCards().RemoveAt(0);
             return temp;
         }
 
+        public override bool OnSerialize(NetworkWriter writer, bool initialState)
+        {
+                // the first time an object is sent to a client, send all the data (and no dirty bits)
+                writer.Write(JsonUtility.ToJson(cards));
+
+                return true;
+
+        }
+        public override void OnDeserialize(NetworkReader reader, bool initialState)
+        {
+           cards = JsonUtility.FromJson<CardsWrapper>(reader.ReadString());
+        }
     }
 }

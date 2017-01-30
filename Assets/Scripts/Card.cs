@@ -6,12 +6,14 @@ using SimpleJSON;
 namespace CardGame
 {
     [System.Serializable]
+    public class CardsWrapper { public List<Card> cards = new List<Card>(); }
+    [System.Serializable]
     public class Card
     {
         [SerializeField]
         private string _name;
         [SerializeField]
-        private int id;
+        public int id;
         public string name
         {
             get { return _name; }
