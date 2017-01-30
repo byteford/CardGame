@@ -53,7 +53,7 @@ namespace CardGame
             addCard("Scrapheap Scrounger", 4);
             addCard("Harnessed Lightning", 3);
             addCard("Unlicensed Disintegration", 4);
-            addCard("smuggler's copter", 4);
+            addCard("Smuggler's Copter", 4);
             addCard("Cultivator's Caravan", 3);
             addCard("Inspiring Vantage", 4);
             addCard("Aether Hub", 4);
@@ -68,18 +68,28 @@ namespace CardGame
             CardInfo info;
             //cards.Add(new Card(id));
             if (!CardCashe.Load(id, out info))
+            {
                 StartCoroutine(Load(startOfURL + "/" + id.ToString()));
+            }
             else
+            {
+                CardsToLoad++;
                 cards.Add(new Card(info));
+            }
         }
         void addCard(string name)
         {
             CardInfo info;
             //cards.Add (new Card (name));
-            if(!CardCashe.Load(name,out info))
+            if (!CardCashe.Load(name, out info))
+            {
                 StartCoroutine(Load(startOfURL + "?name=" + name.Replace(" ", "%20")));
+            }
             else
+            {
+                CardsToLoad++;
                 cards.Add(new Card(info));
+            }
 
         }
         void addCard(int id, int number)

@@ -62,6 +62,7 @@ namespace CardGame
             //temp.GetComponent<RectTransform> ().anchoredPosition = new Vector2 (0, 0);
             //temp.GetComponent<RectTransform> ().sizeDelta = new Vector2 (100, 10);
             temp.GetComponentInChildren<Text>().text = card.info.name;
+            StartCoroutine(LoadTexture(card.info, temp.GetComponent<RawImage>()));
             LocCardsIsHand.Add(temp);
         }
         public void MakeOthCard(Card card)
@@ -72,6 +73,17 @@ namespace CardGame
             //temp.GetComponent<RectTransform> ().sizeDelta = new Vector2 (100, 10);
             temp.GetComponentInChildren<Text>().text = card.info.name;
             othCardsInHand.Add(temp);
+        }
+        IEnumerator LoadTexture(CardInfo info, RawImage image)
+        {
+
+            Texture2D tex;
+            tex = new Texture2D(4, 4, TextureFormat.DXT1, false);
+            Debug.Log(info.ImageURL);
+            WWW www = new WWW(info.ImageURL);
+            yield return www;
+            www.LoadImageIntoTexture(tex);
+            image.texture = tex;
         }
     }
 }

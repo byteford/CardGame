@@ -11,10 +11,6 @@ namespace CardGame
         public int startingHandSize = 7;
         public void Start()
         {
-            Card temp = new Card(new CardInfo());
-            temp.info.id = 409784;
-            temp.info.name = "Thraben Inspector";
-            CardCashe.Save(temp.info);
         }
         public void StartGame()
         {

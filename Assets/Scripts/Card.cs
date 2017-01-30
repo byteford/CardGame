@@ -12,6 +12,7 @@ namespace CardGame
     {
         public string name;
         public int id;
+        public string ImageURL;
     }
     [System.Serializable]
     public class Card
@@ -46,6 +47,7 @@ namespace CardGame
             this.json = json;
             info.name = GetStringFromJSON("name");
             info.id = GetIntFromJSON("multiverseid");
+            info.ImageURL = GetStringFromJSON("imageUrl");
 
 
         }

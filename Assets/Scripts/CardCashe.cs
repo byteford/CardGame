@@ -17,7 +17,7 @@ namespace CardGame
         public static void RemakeDB()
         {
             getDB().ExecuteNonQuery("DROP TABLE " + tableName);
-            getDB().ExecuteNonQuery("CREATE TABLE `MTGCards` (`Id`	INTEGER NOT NULL UNIQUE,`CardName`	TEXT,PRIMARY KEY(`Id`))");
+            getDB().ExecuteNonQuery("CREATE TABLE `"+tableName+"` (`Id`	INTEGER NOT NULL UNIQUE,`CardName`	TEXT,`ImageURL` TEXT,PRIMARY KEY(`Id`))");
         }
         public static void Save(CardInfo card)
         {
@@ -27,7 +27,7 @@ namespace CardGame
 
                 // sqlDB = new SqliteDatabase(dbName);
                 //string quiry = "INSERT INTO MTGCards(Id) VALUES('2')";
-                string quiry = "INSERT INTO " + tableName + "(Id,CardName)" + "VALUES ('" + card.id + "','"+card.name.Replace("'","''")+"');";
+                string quiry = "INSERT INTO " + tableName + "(Id,CardName,ImageURL)" + "VALUES ('" + card.id + "','"+card.name.Replace("'","''")+"','"+card.ImageURL.Replace("'","''")+"');";
                 if (!isInTable(card.id))
                 {
                     getDB().ExecuteNonQuery(quiry);
@@ -68,7 +68,7 @@ namespace CardGame
             card.id = int.Parse(data["Id"].ToString());
             if(data["CardName"] != null)
             card.name = data["CardName"].ToString();
-
+            card.ImageURL = data["ImageURL"].ToString();
             return card;
         }
         public static bool isInTable(int id)
@@ -83,8 +83,9 @@ namespace CardGame
             //    }
             //}
 
-
-            var data = getDB().ExecuteQuery("SELECT * FROM MTGCards WHERE Id="+id+";").Rows;
+            string quiry = "SELECT * FROM MTGCards WHERE Id=" + id + ";";
+            Debug.Log(quiry);
+            var data = getDB().ExecuteQuery(quiry).Rows;
 
             if(data.Count > 0)
                 return true;
