@@ -65,13 +65,21 @@ namespace CardGame
         }
         void addCard(int id)
         {
+            CardInfo info;
             //cards.Add(new Card(id));
-            StartCoroutine(Load(startOfURL + "/" + id.ToString()));
+            if (!CardCashe.Load(id, out info))
+                StartCoroutine(Load(startOfURL + "/" + id.ToString()));
+            else
+                cards.Add(new Card(info));
         }
         void addCard(string name)
         {
+            CardInfo info;
             //cards.Add (new Card (name));
-            StartCoroutine(Load(startOfURL + "?name=" + name.Replace(" ", "%20")));
+            if(!CardCashe.Load(name,out info))
+                StartCoroutine(Load(startOfURL + "?name=" + name.Replace(" ", "%20")));
+            else
+                cards.Add(new Card(info));
 
         }
         void addCard(int id, int number)
@@ -103,6 +111,7 @@ namespace CardGame
             }
             else
                 cards.Add(card);
+            CardCashe.Save(card.info);
         }
         #endregion
 

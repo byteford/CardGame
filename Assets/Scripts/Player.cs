@@ -15,6 +15,8 @@ namespace CardGame
         public static Player OtherPlayer;
         public GameObject GameController;
         [SyncVar]
+        public int CardsInHand = 0;
+        [SyncVar]
         public int CardsLoaded = 0;
         public void Start()
         {
@@ -39,29 +41,30 @@ namespace CardGame
         public void StartGame()
         {
             
-           // StartCoroutine(SetUPPlayer());
         }
         public void Update()
         {
         }
-        //public void DrawStartingHand()
-        //{
-        //    for (int i = 0; i < startingHandSize; i++)
-        //    {
-        //        DrawACard();
-        //    }
-        //}
 
         public void DrawACard(CardInfo info)
         {
             //hand.AddCard(deck.drawACard());
             if (!isServer)
                 return;
-            RpcDrawACard(info);
+            // RpcDrawACard(info);
+            //hand.AddCard(new Card(info));
+            TargetDrawACard(connectionToClient, info);
+            CardsInHand = hand.cards.Count;
         }
 
-        [ClientRpc]
-        void RpcDrawACard(CardInfo info)
+        //[ClientRpc]
+        //void RpcDrawACard(CardInfo info)
+        //{
+        //    if(isLocalPlayer)
+        //    hand.AddCard(new Card(info));
+        //}
+        [TargetRpc]
+        void TargetDrawACard(NetworkConnection con, CardInfo info)
         {
             hand.AddCard(new Card(info));
         }
