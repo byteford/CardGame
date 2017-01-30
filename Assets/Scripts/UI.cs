@@ -21,12 +21,13 @@ namespace CardGame
         public void Update()
         {
             locPlayer = Player.LocalPlayer;
-            locDeckSize.text = locPlayer.deck.CardsLoaded.ToString();
+            if(locPlayer)
+            locDeckSize.text = locPlayer.CardsLoaded.ToString();
 
             othPlayer = Player.OtherPlayer;
             if (othPlayer)
             {
-                othDeckSize.text = othPlayer.deck.CardsLoaded.ToString();
+                othDeckSize.text = othPlayer.CardsLoaded.ToString();
             }
             MakeHand();
         }
@@ -40,7 +41,7 @@ namespace CardGame
         {
             if (locHandRoot.childCount != 0)
                 return;
-
+            if(locPlayer)
             foreach (Card card in locPlayer.hand.cards)
             {
                 MakeLocCard(card);
@@ -60,7 +61,7 @@ namespace CardGame
             temp.transform.SetParent(locHandRoot);
             //temp.GetComponent<RectTransform> ().anchoredPosition = new Vector2 (0, 0);
             //temp.GetComponent<RectTransform> ().sizeDelta = new Vector2 (100, 10);
-            temp.GetComponentInChildren<Text>().text = card.name;
+            temp.GetComponentInChildren<Text>().text = card.info.name;
             LocCardsIsHand.Add(temp);
         }
         public void MakeOthCard(Card card)
@@ -69,7 +70,7 @@ namespace CardGame
             temp.transform.SetParent(locHandRoot);
             //temp.GetComponent<RectTransform> ().anchoredPosition = new Vector2 (0, 0);
             //temp.GetComponent<RectTransform> ().sizeDelta = new Vector2 (100, 10);
-            temp.GetComponentInChildren<Text>().text = card.name;
+            temp.GetComponentInChildren<Text>().text = card.info.name;
             othCardsInHand.Add(temp);
         }
     }

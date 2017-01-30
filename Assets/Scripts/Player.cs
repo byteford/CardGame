@@ -6,14 +6,16 @@ namespace CardGame
 {
     public class Player : NetworkBehaviour
     {
-        public Deck deck;
+        //public Deck deck;
         public Hand hand;
-        public int startingHandSize = 7;
+
         [SyncVar]
         public int playerNumber = 0;
         public static Player LocalPlayer;
         public static Player OtherPlayer;
         public GameObject GameController;
+        [SyncVar]
+        public int CardsLoaded = 0;
         public void Start()
         {
             if (isServer)
@@ -22,10 +24,7 @@ namespace CardGame
                 if (isLocalPlayer)
                 {
                     Instantiate(GameController);
-                    playerNumber = 1;
                 }
-                else
-                    playerNumber = 2;
             }
             if (isLocalPlayer)
             {
@@ -40,30 +39,31 @@ namespace CardGame
         public void StartGame()
         {
             
-            StartCoroutine(SetUPPlayer());
+           // StartCoroutine(SetUPPlayer());
         }
         public void Update()
         {
         }
-        public void DrawStartingHand()
+        //public void DrawStartingHand()
+        //{
+        //    for (int i = 0; i < startingHandSize; i++)
+        //    {
+        //        DrawACard();
+        //    }
+        //}
+
+        public void DrawACard(CardInfo info)
         {
-            for (int i = 0; i < startingHandSize; i++)
-            {
-                DrawACard();
-            }
+            //hand.AddCard(deck.drawACard());
+            if (!isServer)
+                return;
+            RpcDrawACard(info);
         }
 
-        public void DrawACard()
+        [ClientRpc]
+        void RpcDrawACard(CardInfo info)
         {
-            hand.AddCard(deck.drawACard());
-        }
-
-        IEnumerator SetUPPlayer()
-        {
-            deck.LoadCards();
-            yield return new WaitUntil(() => deck.deckLoaded);
-            deck.ShuffleCards();
-            DrawStartingHand();
+            hand.AddCard(new Card(info));
         }
     }
 }

@@ -5,38 +5,47 @@ using SimpleJSON;
 
 namespace CardGame
 {
+
+
     [System.Serializable]
-    public class CardsWrapper { public List<Card> cards = new List<Card>(); }
+    public struct CardInfo
+    {
+        public string name;
+        public int id;
+    }
     [System.Serializable]
     public class Card
     {
-        [SerializeField]
-        private string _name;
-        [SerializeField]
-        public int id;
-        public string name
-        {
-            get { return _name; }
-        }
-        public string url;
+        public CardInfo info = new CardInfo();
+        //[SerializeField]
+        //private string _name;
+        //[SerializeField]
+        //public int id;
+        //public string name
+        //{
+        //    get { return _name; }
+        //}
         [SerializeField]
         JSONNode json;
         public Card(int id)
         {
-            this.id = id;
+            info.id = id;
 
         }
         public Card(string name)
         {
-            _name = name;
-
+            info.name = name;
+        }
+        public Card(CardInfo info)
+        {
+            this.info = info;
         }
         public Card(JSONNode json)
         {
             //Debug.Log ("Load Card " + json.ToString ());
             this.json = json;
-            _name = GetStringFromJSON("name");
-            id = GetIntFromJSON("multiverseid");
+            info.name = GetStringFromJSON("name");
+            info.id = GetIntFromJSON("multiverseid");
 
 
         }

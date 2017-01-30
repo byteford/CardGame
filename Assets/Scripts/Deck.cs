@@ -11,8 +11,8 @@ namespace CardGame
 
 
         public string startOfURL = "https://api.magicthegathering.io/v1/cards";
-        //public List<Card> cards;
-        public CardsWrapper cards;
+        public List<Card> cards;
+
         public int CardsLoaded
         {
             get { return GetCards().Count; }
@@ -25,13 +25,12 @@ namespace CardGame
         }
         public List<Card> GetCards()
         {
-            return cards.cards;
+            return cards;
         }
 
         // Use this for initialization
         void Start()
         {
-            cards = new CardsWrapper();
         }
 
         // Update is called once per frame
@@ -103,7 +102,7 @@ namespace CardGame
                 Debug.Log("Failed to load: " + URL);
             }
             else
-                cards.cards.Add(card);
+                cards.Add(card);
         }
         #endregion
 
@@ -128,17 +127,5 @@ namespace CardGame
             return temp;
         }
 
-        public override bool OnSerialize(NetworkWriter writer, bool initialState)
-        {
-                // the first time an object is sent to a client, send all the data (and no dirty bits)
-                writer.Write(JsonUtility.ToJson(cards));
-
-                return true;
-
-        }
-        public override void OnDeserialize(NetworkReader reader, bool initialState)
-        {
-           cards = JsonUtility.FromJson<CardsWrapper>(reader.ReadString());
-        }
     }
 }
