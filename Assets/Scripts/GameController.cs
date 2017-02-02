@@ -9,6 +9,9 @@ namespace CardGame
         public List<Player> players;
         public List<Deck> decks;
         public int startingHandSize = 7;
+        public int PlayerPriority;
+        public Phases CurrentPhase;
+        public int TurnNumber;
         public void Start()
         {
         }

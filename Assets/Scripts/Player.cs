@@ -57,12 +57,6 @@ namespace CardGame
             CardsInHand = hand.cards.Count;
         }
 
-        //[ClientRpc]
-        //void RpcDrawACard(CardInfo info)
-        //{
-        //    if(isLocalPlayer)
-        //    hand.AddCard(new Card(info));
-        //}
         [TargetRpc]
         void TargetDrawACard(NetworkConnection con, CardInfo info)
         {
