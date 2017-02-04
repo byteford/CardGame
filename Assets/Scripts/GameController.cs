@@ -12,11 +12,24 @@ namespace CardGame
         public int PlayerPriority;
         public Phases CurrentPhase;
         public int TurnNumber;
+        public bool GameSetUp;
+        public int PlayersTurn
+        {
+            get{
+                return TurnNumber % players.Count;
+            }
+        }
+        public static GameController Inst;
         public void Start()
         {
+            GameSetUp = false;
+            Inst = this;
         }
         public void StartGame()
         {
+            if (GameSetUp)
+                return;
+            GameSetUp = true;
             foreach( var temp in GameObject.FindGameObjectsWithTag("Player"))
             {
                 players.Add(temp.GetComponent<Player>());
@@ -37,6 +50,32 @@ namespace CardGame
         {
             players[playerNumer].DrawACard(decks[playerNumer].drawACard().info);
         }
+        public void NextTurn()
+        {
+            TurnNumber++;
+            CurrentPhase = Phases.Untap_Step;
+            PlayerPriority = PlayersTurn;
+        }
+        public void NextPhase()
+        {
+
+            if (CurrentPhase == Phases.End_Step)
+                NextTurn();
+            else
+                CurrentPhase++;
+            
+        }
+        public void PassPriorety(int PlayerNumber)
+        {
+            if (PlayerNumber != PlayerPriority)
+                return;
+            //PlayerPriority++;
+            if (PlayerPriority +1 >= players.Count)
+                NextPhase();
+            else
+                PlayerPriority++;
+        }
+
         IEnumerator SetUpPlayer(int pNumber)
         {
             decks[pNumber].LoadCards();

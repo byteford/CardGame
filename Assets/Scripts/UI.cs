@@ -18,12 +18,18 @@ namespace CardGame
         public Player othPlayer;
         public List<GameObject> othCardsInHand;
 
+        public Text CurrentPhaseText;
+
         public void Update()
         {
+            
             locPlayer = Player.LocalPlayer;
-            if(locPlayer)
-            locDeckSize.text = locPlayer.CardsLoaded.ToString();
 
+            if (locPlayer)
+            {
+                CurrentPhaseText.text = locPlayer.CurrentPhase.ToString();
+                locDeckSize.text = locPlayer.CardsLoaded.ToString();
+            }
             othPlayer = Player.OtherPlayer;
             if (othPlayer)
             {
@@ -36,6 +42,10 @@ namespace CardGame
             //locPlayer.BroadcastMessage("StartGame");
             GameObject.FindGameObjectWithTag("GameController").BroadcastMessage("StartGame");
 
+        }
+        public void PassPrio()
+        {
+            locPlayer.PassPrio();
         }
         public void MakeHand()
         {

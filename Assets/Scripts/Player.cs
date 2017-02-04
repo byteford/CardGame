@@ -18,6 +18,8 @@ namespace CardGame
         public int CardsInHand = 0;
         [SyncVar]
         public int CardsLoaded = 0;
+        [SyncVar]
+        public Phases CurrentPhase = Phases.UpKeep_Step;
         public void Start()
         {
             if (isServer)
@@ -44,6 +46,11 @@ namespace CardGame
         }
         public void Update()
         {
+            if (isServer)
+            {
+                if(CardGame.GameController.Inst)
+                CurrentPhase = CardGame.GameController.Inst.CurrentPhase;
+            }
         }
 
         public void DrawACard(CardInfo info)
@@ -56,7 +63,15 @@ namespace CardGame
             TargetDrawACard(connectionToClient, info);
             CardsInHand = hand.cards.Count;
         }
-
+        public void PassPrio()
+        {
+            CmdPassPrio ();
+        }
+        [Command]
+        void CmdPassPrio()
+        {
+            CardGame.GameController.Inst.PassPriorety(playerNumber);
+        }
         [TargetRpc]
         void TargetDrawACard(NetworkConnection con, CardInfo info)
         {
