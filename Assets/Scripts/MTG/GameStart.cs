@@ -10,7 +10,7 @@ namespace CardGame.MTG
         public void Start()
         {
             cont = GameController.Inst;
-            cont.GameStart += new CardGameEvent(OnStart);
+            cont.onGameStart += OnStart;
         }
         public void OnStart()
         {

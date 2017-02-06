@@ -7,7 +7,10 @@ namespace CardGame
 {
     public delegate void PlayerEvent();
     public delegate void CardGameEvent();
-    
+    public delegate void PhasesEvent(Phases currentPhase);
+    public delegate void PriorityEvent(int PlayerWithPriority);
+    public delegate void TurnEvent(int TurnNumber);
+
         public class GameController : NetworkBehaviour {
         public GameObject GameRules;
         public List<Player> players;
@@ -24,8 +27,11 @@ namespace CardGame
         }
         public static GameController Inst;
 
-        public event CardGameEvent GameStart;
-        
+        public event CardGameEvent onGameStart;
+        public event PhasesEvent onEndPhase;
+        public event PhasesEvent onStartPhase;
+        public event PriorityEvent onChangePriority;
+        public event TurnEvent onTurnChange;
        
         public void Start()
         {
@@ -37,7 +43,7 @@ namespace CardGame
         {
             if (GameSetUp)
                 return;
-            GameStart();
+            onGameStart();
             GameSetUp = true;
         }
         private void Update()
@@ -53,14 +59,18 @@ namespace CardGame
             TurnNumber++;
             CurrentPhase = Phases.Untap_Step;
             PlayerPriority = PlayersTurn;
+            onTurnChange(TurnNumber);
         }
         public void NextPhase()
         {
-
+            onEndPhase(CurrentPhase);
             if (CurrentPhase == Phases.End_Step)
                 NextTurn();
             else
+            {
                 CurrentPhase++;
+                onStartPhase(CurrentPhase);
+            }
             
         }
         public void PassPriorety(int PlayerNumber)
@@ -68,10 +78,12 @@ namespace CardGame
             if (PlayerNumber != PlayerPriority)
                 return;
             PlayerPriority++;
-            if (PlayerPriority >= players.Count)
+            if (PlayerPriority >= players.Count)  
                 PlayerPriority = 0;
-            if(PlayerPriority == PlayersTurn)
+            if (PlayerPriority == PlayersTurn)
                 NextPhase();
+            else
+                onChangePriority(PlayerPriority);
            
         }
 

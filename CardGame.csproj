@@ -93,6 +93,7 @@
     <Compile Include="Assets\Scripts\GameController.cs" />
     <Compile Include="Assets\Scripts\Hand.cs" />
     <Compile Include="Assets\Scripts\MTG\GameStart.cs" />
+    <Compile Include="Assets\Scripts\MTG\Phases.cs" />
     <Compile Include="Assets\Scripts\Network.cs" />
     <Compile Include="Assets\Scripts\Phases.cs" />
     <Compile Include="Assets\Scripts\Player.cs" />
