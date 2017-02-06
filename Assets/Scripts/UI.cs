@@ -35,12 +35,13 @@ namespace CardGame
             {
                 othDeckSize.text = othPlayer.CardsLoaded.ToString();
             }
-            MakeHand();
+                MakeHand();
         }
         public void SetUP()
         {
             //locPlayer.BroadcastMessage("StartGame");
             GameObject.FindGameObjectWithTag("GameController").BroadcastMessage("StartGame");
+            GameController.Inst.onHandChange += new HandEvent(RemakeHand);
 
         }
         public void PassPrio()
@@ -64,6 +65,13 @@ namespace CardGame
                 MakeOthCard(card);
             }
 
+        }
+        public void RemakeHand()
+        {
+            for(int i = locHandRoot.childCount; i > 0; i--)
+            {
+                Destroy(locHandRoot.GetChild(i-1).gameObject);
+            }
         }
         public void MakeLocCard(Card card)
         {
